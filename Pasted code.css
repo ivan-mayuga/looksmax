@@ -1,0 +1,600 @@
+/* ── Reset & Variables ─────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #F5F0E8;
+  --card: #FFFCF8;
+  --surface: #F0EAE0;
+  --line: #E2D9CC;
+  --line-hover: #B8A898;
+  --text: #1C1810;
+  --muted: #8B7D6B;
+  --accent: #3D5C35;
+  /* Stronger green */
+  --accent-rgb: 61, 92, 53;
+  --accent-light: #EBF0E7;
+  --danger: #8B2E2E;
+  --danger-bg: #FDF0EF;
+}
+
+html,
+body {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Figtree', ui-sans-serif, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+button:disabled,
+textarea:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+svg {
+  fill: currentColor;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+
+/* ── Layout Shell ──────────────────────────────────────── */
+.shell {
+  display: grid;
+  /* Allocate more space to the left (image) panel to avoid the right side feeling cramped */
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 20px;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+
+/* ── Panel Style ───────────────────────────────────────── */
+.input-panel,
+.right-panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: clamp(24px, 4vw, 40px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.input-panel {
+  display: grid;
+  align-content: start;
+  gap: 32px;
+}
+
+.right-panel {
+  display: grid;
+  align-content: start;
+  gap: 24px;
+  /* Prevent the text panel from feeling cramped on large screens */
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+
+/* ── Topbar ────────────────────────────────────────────── */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.brand-star {
+  width: 18px;
+  height: 18px;
+  fill: var(--accent);
+  flex-shrink: 0;
+}
+
+.reset-btn {
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-size: .88rem;
+  color: var(--muted);
+  transition: border-color .15s, color .15s, background-color .15s;
+}
+
+.reset-btn:hover {
+  border-color: var(--line-hover);
+  color: var(--text);
+  background-color: var(--surface);
+}
+
+
+/* ── Hero ──────────────────────────────────────────────── */
+.eyebrow {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.hero h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.6rem, 5.5vw, 5rem);
+  font-weight: 600;
+  line-height: .95;
+  letter-spacing: -.03em;
+}
+
+.hero p {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 500px;
+}
+
+
+/* ── Unified Form ────────────────────────────────────────── */
+.unified-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+
+/* ── Form Sections ─────────────────────────────────────── */
+.form-section {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px;
+  background: var(--surface);
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+/* Specific Section Layouts */
+.upload-flow {
+  gap: 14px;
+}
+
+.focus-controls {
+  gap: 14px;
+}
+
+
+/* ── Upload/Dropzone ───────────────────────────────────── */
+.dropzone {
+  min-height: 380px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 10px;
+  padding: 30px;
+  border: 1.5px dashed #C5B89E;
+  border-radius: 14px;
+  color: var(--muted);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .15s, background-color .15s, color .15s;
+}
+
+.dropzone:hover {
+  border-color: var(--accent);
+  background-color: var(--accent-light);
+  color: var(--accent);
+}
+
+.drop-icon {
+  width: 56px;
+  height: 56px;
+  background: #EDE8DF;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 6px;
+}
+
+.drop-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: var(--muted);
+}
+
+.dropzone:hover .drop-icon {
+  background: var(--card);
+}
+
+.dropzone:hover .drop-icon svg {
+  fill: var(--accent);
+}
+
+.dropzone strong {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.dropzone strong:only-child {
+  color: inherit;
+}
+
+/* Witty text inherits color on hover */
+.dropzone span {
+  font-size: .85rem;
+}
+
+.preview {
+  /* Make the preview area roomier and give it a soft border and shadow */
+  min-height: 450px;
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  background: #EDE8DF;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.preview img {
+  /* Allow the image to scale while keeping its aspect ratio, and center it */
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.remove-img {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(28, 24, 16, .75);
+  color: #fff;
+  font-size: .9rem;
+  display: grid;
+  place-items: center;
+}
+
+.upload-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.secondary-btn {
+  height: 38px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font-size: .88rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color .15s, border-color .15s;
+}
+
+.secondary-btn:hover {
+  background-color: var(--card);
+  border-color: var(--line-hover);
+}
+
+.btn-icon {
+  fill: var(--muted);
+}
+
+.file-name {
+  font-size: .85rem;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+/* ── Control/Focus (Simplified) ───────────────────────── */
+/* Label and privacy note styles removed as requested */
+
+.unified-form textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+  color: var(--text);
+  line-height: 1.5;
+  font-size: .95rem;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+.unified-form textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.1);
+}
+
+.unified-form textarea::placeholder {
+  color: #C0B4A4;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  font-size: .85rem;
+  color: var(--muted);
+  transition: border-color .15s, color .15s, background-color .15s;
+}
+
+.chip:hover,
+.chip.is-active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background-color: var(--accent-light);
+}
+
+.analyze-btn {
+  width: 100%;
+  height: 54px;
+  border: none;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase; /* Centered all-caps text as in Image 2 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: opacity .15s, transform .1s, box-shadow .15s;
+}
+
+.analyze-btn:hover:not(:disabled) {
+  opacity: .9;
+  box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.2);
+}
+
+.analyze-btn:active:not(:disabled) {
+  transform: scale(.98);
+}
+
+
+/* ── Result Panel ──────────────────────────────────────── */
+.result-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.result-badge {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  background: var(--accent-light);
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: .75rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: .06em;
+}
+
+.result-header h2 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.result-divider {
+  height: 1px;
+  background: var(--line);
+}
+
+.empty-state {
+  min-height: 360px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 12px;
+  text-align: center;
+  padding: 32px;
+  color: var(--muted);
+}
+
+.e-icon {
+  font-size: 1.6rem;
+  color: #C5B89E;
+}
+
+.empty-state p {
+  max-width: 300px;
+  font-size: .95rem;
+  line-height: 1.6;
+}
+
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 220px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid #D5C9BD;
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-message {
+  padding: 16px 18px;
+  border: 1px solid #F0CECE;
+  border-radius: 14px;
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-size: .92rem;
+  line-height: 1.55;
+}
+
+.feedback-card {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  padding: 24px;
+  font-size: .98rem;
+  line-height: 1.8;
+  /* Allow the feedback card to scroll independently without squeezing other content */
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+/* Feedback typography - Ensure your response content is properly parsed as HTML to apply these styles */
+.section-header,
+.feedback-card h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+  /* Added larger top margin for better vertical distinctness between sections */
+  margin: 1.8rem 0 .4rem;
+}
+
+.section-header:first-child,
+.feedback-card h3:first-child {
+  margin-top: 0;
+}
+
+.feedback-card p {
+  margin: .5rem 0;
+  color: #3D342A;
+}
+
+.feedback-card ul {
+  padding-left: 1.4rem;
+  margin: .3rem 0 .85rem;
+}
+
+.feedback-card li {
+  margin-bottom: .35rem;
+  color: #3D342A;
+}
+
+
+/* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 1080px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .feedback-card {
+    max-height: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .shell {
+    padding: 0;
+    gap: 0;
+  }
+
+  .input-panel,
+  .right-panel {
+    border-radius: 0;
+    border-inline: none;
+    box-shadow: none;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 520px) {
+
+  .input-panel,
+  .right-panel {
+    padding: 20px;
+  }
+
+  .dropzone,
+  .preview,
+  .preview img {
+    min-height: 300px;
+  }
+
+  .dropzone {
+    padding: 20px;
+  }
+}

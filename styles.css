@@ -1,0 +1,673 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Palette */
+  --cream: #F7F1E6;
+  /* base background — warm ivory, not stark white */
+  --paper: #FCF8F0;
+  /* slightly lighter, for cards/inputs sitting on cream */
+  --line: #E5D9C6;
+  /* hairline rule / border colour */
+  --line-strong: #CBB99C;
+
+  --ink: #241C17;
+  /* near-black warm charcoal for text */
+  --muted: #8C7C68;
+  /* secondary text */
+
+  --maroon: #6E1423;
+  /* oxblood — primary accent */
+  --maroon-deep: #4A0D18;
+  /* pressed / hover state */
+  --maroon-rgb: 110, 20, 35;
+  --maroon-wash: #F4E7E3;
+  /* pale maroon tint for hovers/active chips */
+
+  --danger: #8B2E2E;
+  --danger-bg: #FBEFEC;
+
+  /* Type scale */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', ui-sans-serif, sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+}
+
+html,
+body {
+  min-height: 100%;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: inherit;
+}
+
+button:disabled,
+textarea:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+svg {
+  fill: currentColor;
+}
+
+a {
+  color: var(--maroon);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .001ms !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+
+/* ── Layout Shell ──────────────────────────────────────── */
+.shell {
+  display: grid;
+  grid-template-columns: 380px 1px 1fr;
+  gap: 0;
+  max-width: 1280px;
+  min-height: 100vh;
+  margin-inline: auto;
+  padding: 0 clamp(20px, 4vw, 56px);
+}
+
+.shell::after {
+  content: '';
+}
+
+.input-panel {
+  grid-column: 1;
+  display: grid;
+  align-content: start;
+  gap: 28px;
+  padding: clamp(28px, 5vh, 56px) clamp(0px, 2vw, 28px) 40px 0;
+  border-right: 1px solid var(--line);
+}
+
+.right-panel {
+  grid-column: 3;
+  display: grid;
+  align-content: start;
+  gap: 22px;
+  padding: clamp(28px, 5vh, 56px) 0 40px clamp(20px, 3vw, 40px);
+}
+
+
+/* ── Topbar ────────────────────────────────────────────── */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: .95rem;
+  letter-spacing: -.005em;
+}
+
+.brand-star {
+  width: 15px;
+  height: 15px;
+  fill: var(--maroon);
+  flex-shrink: 0;
+}
+
+.reset-btn {
+  height: 32px;
+  padding: 0 4px;
+  font-size: .82rem;
+  color: var(--muted);
+  border-bottom: 1px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+
+.reset-btn:hover,
+.reset-btn:focus-visible {
+  color: var(--maroon);
+  border-color: var(--maroon);
+}
+
+
+/* ── Hero ──────────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  margin-bottom: 10px;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 3.4vw, 2.9rem);
+  font-weight: 500;
+  font-optical-sizing: auto;
+  line-height: .98;
+  letter-spacing: -.02em;
+  color: var(--ink);
+}
+
+.hero-sub {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: .92rem;
+  line-height: 1.6;
+  max-width: 40ch;
+}
+
+
+/* ── Unified Form ────────────────────────────────────────── */
+.unified-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.form-section {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+
+/* ── Upload/Dropzone — compact, not a cavern ─────────────── */
+.dropzone {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color .15s, background-color .15s;
+}
+
+.dropzone:hover,
+.dropzone:focus-visible {
+  border-color: var(--maroon);
+  background-color: var(--maroon-wash);
+}
+
+.drop-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background: var(--cream);
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  transition: background-color .15s;
+}
+
+.drop-icon svg {
+  width: 17px;
+  height: 17px;
+  fill: var(--muted);
+  transition: fill .15s;
+}
+
+.dropzone:hover .drop-icon {
+  background: var(--paper);
+}
+
+.dropzone:hover .drop-icon svg {
+  fill: var(--maroon);
+}
+
+.drop-copy {
+  display: grid;
+  gap: 2px;
+  text-align: left;
+}
+
+.drop-copy strong {
+  font-size: .92rem;
+  font-weight: 600;
+}
+
+.drop-hint {
+  font-size: .78rem;
+  color: var(--muted);
+}
+
+.preview {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.preview img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.remove-img {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(36, 28, 23, .78);
+  color: #fff;
+  font-size: .78rem;
+  display: grid;
+  place-items: center;
+  transition: background-color .15s, transform .1s;
+}
+
+.remove-img:hover {
+  background: var(--maroon-deep);
+}
+
+.remove-img:active {
+  transform: scale(.92);
+}
+
+.upload-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.secondary-btn {
+  height: 32px;
+  padding: 0 4px;
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--muted);
+  border-bottom: 1px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+
+.secondary-btn:hover,
+.secondary-btn:focus-visible {
+  color: var(--maroon);
+  border-color: var(--maroon);
+}
+
+.file-name {
+  font-size: .8rem;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 140px;
+}
+
+
+/* ── Analyze CTA ───────────────────────────────────────── */
+.analyze-btn {
+  width: 100%;
+  height: 46px;
+  border-radius: var(--radius-sm);
+  background: var(--maroon);
+  color: var(--paper);
+  font-size: .88rem;
+  font-weight: 600;
+  letter-spacing: .01em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color .15s, box-shadow .15s, transform .08s;
+}
+
+.analyze-btn:hover:not(:disabled),
+.analyze-btn:focus-visible:not(:disabled) {
+  background: var(--maroon-deep);
+  box-shadow: 0 6px 18px rgba(var(--maroon-rgb), 0.22);
+}
+
+.analyze-btn:active:not(:disabled) {
+  transform: scale(.99);
+}
+
+.fine-print {
+  font-size: .76rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+
+/* ── Focus visibility (accessibility floor) ───────────────── */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+label:focus-visible {
+  outline: 2px solid var(--maroon);
+  outline-offset: 2px;
+}
+
+
+/* ── Result Panel — the dossier ───────────────────────────── */
+.result-masthead {
+  display: grid;
+  gap: 6px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.result-kicker {
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--maroon);
+}
+
+.result-masthead h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.2vw, 1.9rem);
+  font-weight: 500;
+  letter-spacing: -.01em;
+  line-height: 1.1;
+}
+
+/* Cap reading width so short responses don't sprawl across the
+   full panel — a dossier entry reads like a memo, not a poster. */
+.result-body {
+  display: grid;
+  max-width: 620px;
+}
+
+/* Empty state — a typographic moment, not a gray box.
+   Centered in a fixed band so it never looks like a
+   half-loaded page before anything has happened. */
+.empty-state {
+  display: grid;
+  justify-items: start;
+  align-content: center;
+  gap: 14px;
+  min-height: min(52vh, 420px);
+}
+
+.empty-mark {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  color: var(--line-strong);
+  line-height: 1;
+}
+
+.empty-state p {
+  max-width: 32ch;
+  font-size: .95rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* Loading state */
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: min(52vh, 420px);
+  color: var(--muted);
+  font-size: .92rem;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--line);
+  border-top-color: var(--maroon);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-message {
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--danger);
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-size: .88rem;
+  line-height: 1.55;
+}
+
+/* ── Feedback card — auto-numbered dossier sections ───────
+   The model returns raw h3/p/ul with no wrapper divs, so the
+   "numbered breakdown" is built with CSS counters against the
+   h3 headings themselves: each one gets a maroon index numeral
+   and a hairline rule above it (skipped on the first), turning
+   a flat scroll of text into a scannable case file. */
+.feedback-card {
+  counter-reset: dossier;
+  padding-top: 4px;
+  font-size: .95rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.feedback-card h3 {
+  counter-increment: dossier;
+  position: relative;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -.005em;
+  padding-top: 26px;
+  margin-top: 26px;
+  padding-left: 40px;
+  border-top: 1px solid var(--line);
+}
+
+.feedback-card h3:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.feedback-card h3::before {
+  content: counter(dossier, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 26px;
+  font-family: var(--font-body);
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--maroon);
+}
+
+.feedback-card h3:first-child::before {
+  top: 2px;
+}
+
+.feedback-card p {
+  margin: .5rem 0;
+  padding-left: 40px;
+  color: #3D342A;
+}
+
+.feedback-card ul {
+  list-style: none;
+  margin: .5rem 0 .5rem;
+  padding-left: 40px;
+  display: grid;
+  gap: .5rem;
+}
+
+.feedback-card li {
+  position: relative;
+  padding-left: 16px;
+  color: #3D342A;
+}
+
+.feedback-card li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--maroon);
+}
+
+/* ── Case stamp — closes out the file ─────────────────────
+   Answers "what fills the space under a short verdict?" with
+   an answer that's *about* the content (the file is closed)
+   rather than a decorative filler. Pure CSS: it has no
+   is-hidden of its own and only appears once #feedbackCard
+   loses its is-hidden class, so app.js needs no changes. */
+.case-stamp {
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  margin-top: 44px;
+  padding-top: 22px;
+  border-top: 1px dashed var(--line-strong);
+}
+
+.feedback-card:not(.is-hidden)~.case-stamp {
+  display: flex;
+  animation: stamp-in .45s cubic-bezier(.2, .8, .3, 1) .1s backwards;
+}
+
+@keyframes stamp-in {
+  from {
+    opacity: 0;
+    transform: scale(1.2) rotate(-16deg);
+  }
+
+  to {
+    opacity: .9;
+    transform: scale(1) rotate(-8deg);
+  }
+}
+
+.stamp-seal {
+  display: grid;
+  place-items: center;
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  border: 3px double var(--maroon);
+  color: var(--maroon);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: .92rem;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  line-height: 1.35;
+  text-align: center;
+  transform: rotate(-8deg);
+  opacity: .88;
+}
+
+.stamp-meta {
+  font-size: .72rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+
+/* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 1080px) {
+  .shell {
+    grid-template-columns: 1fr;
+    max-width: 720px;
+  }
+
+  .input-panel {
+    grid-column: 1;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    padding: clamp(24px, 5vh, 40px) 0 32px;
+  }
+
+  .right-panel {
+    grid-column: 1;
+    padding: 32px 0 48px;
+  }
+
+  .empty-state,
+  .loading-state {
+    min-height: 240px;
+  }
+}
+
+@media (max-width: 560px) {
+  .shell {
+    padding: 0 20px;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .preview img {
+    height: 180px;
+  }
+
+  .feedback-card h3,
+  .feedback-card p,
+  .feedback-card ul {
+    padding-left: 30px;
+  }
+
+  .feedback-card h3::before {
+    font-size: .68rem;
+  }
+
+  .case-stamp {
+    align-items: center;
+  }
+}

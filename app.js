@@ -92,12 +92,12 @@ async function runAnalysis(e) {
   const formData = new FormData();
   formData.append('faceImage', selectedImage);
 
-  try {
-    const res = await fetch('http://localhost:3000/analyze', {
-      method: 'POST',
-      body: formData,
-    });
-
+try {
+  const res = await fetch('https://looksmax-65dx.onrender.com/analyze', {
+    method: 'POST',
+    body: formData,
+  });
+  
     const data = await res.json();
 
     if (!data.success) throw new Error(data.error);

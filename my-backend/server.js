@@ -22,7 +22,9 @@ const SUPPORTED_IMAGE_TYPES = new Set([
 const GEMINI_MODEL =
   process.env.GEMINI_MODEL || "gemini-2.5-flash";
 
-app.use(cors());
+app.use(cors({
+  origin: "https://looksmax-xi.vercel.app"
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
